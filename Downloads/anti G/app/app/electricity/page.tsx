@@ -4,6 +4,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { getElectricityMeters, MeterReading } from "@/lib/mock-data";
 import { getElectricityMetersFromSupabase } from "@/lib/supabase";
+import { ELECTRICITY_RATES } from "@/lib/config";
 import { StatsGrid } from "@/components/shared/stats-grid";
 import { TabNavigation } from "@/components/shared/tab-navigation";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
@@ -17,6 +18,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { format, parse, startOfMonth, endOfMonth } from "date-fns";
 
+// Use centralized config for rates
+const ratePerKWh = ELECTRICITY_RATES.RATE_PER_KWH;
+
 export default function ElectricityPage() {
     const [activeTab, setActiveTab] = useState("overview");
     const [meters, setMeters] = useState<MeterReading[]>([]);
@@ -24,7 +28,6 @@ export default function ElectricityPage() {
     const [dataSource, setDataSource] = useState<"supabase" | "mock">("mock");
     const [analysisType, setAnalysisType] = useState<string>("All");
     const [dateRangeIndex, setDateRangeIndex] = useState<[number, number]>([0, 100]);
-    const ratePerKWh = 0.025; // OMR
 
     useEffect(() => {
         async function loadData() {

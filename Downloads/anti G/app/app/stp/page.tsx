@@ -4,6 +4,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { getSTPOperations, STPOperation } from "@/lib/mock-data";
 import { getSTPOperationsFromSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { STP_RATES } from "@/lib/config";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ScrollAnimation } from "@/components/shared/scroll-animation";
 import { PageHeader } from "@/components/shared/page-header";
@@ -31,6 +32,9 @@ import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tool
 import { LiquidTooltip } from "../../components/charts/liquid-tooltip";
 import { format } from "date-fns";
 
+// Use centralized config for rates
+const { TANKER_FEE, TSE_SAVING_RATE } = STP_RATES;
+
 export default function STPPage() {
     const [activeTab, setActiveTab] = useState("dashboard");
     const [allOperations, setAllOperations] = useState<STPOperation[]>([]);
@@ -40,9 +44,6 @@ export default function STPPage() {
 
     // Date range filter state
     const [dateRangeIndex, setDateRangeIndex] = useState<[number, number]>([0, 100]);
-
-    const TANKER_FEE = 4.50;
-    const TSE_SAVING_RATE = 1.32;
 
     useEffect(() => {
         async function loadData() {

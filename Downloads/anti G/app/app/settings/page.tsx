@@ -157,7 +157,7 @@ export default function SettingsPage() {
         if (!user || !supabase) return
 
         try {
-            let avatarUrl = profile.avatar_url
+            let avatarUrl: string | null = profile.avatar_url
 
             if (avatarFile) {
                 avatarUrl = await uploadAvatar(user.id)
@@ -168,7 +168,7 @@ export default function SettingsPage() {
                 full_name: profile.full_name,
                 username: profile.username,
                 website: profile.website,
-                avatar_url: avatarUrl,
+                avatar_url: avatarUrl || profile.avatar_url,
                 updated_at: new Date().toISOString(),
             }
 
@@ -178,7 +178,9 @@ export default function SettingsPage() {
 
             if (error) throw error
 
-            setProfile(prev => ({ ...prev, avatar_url: avatarUrl }))
+            if (avatarUrl) {
+                setProfile((prev: typeof profile) => ({ ...prev, avatar_url: avatarUrl }))
+            }
             setAvatarPreview(null)
             setAvatarFile(null)
 

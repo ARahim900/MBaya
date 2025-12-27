@@ -5,6 +5,8 @@ import "./globals.css";
 
 import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
+import { ToastProvider } from "@/components/ui/toast-provider";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { useState, useEffect, createContext, useContext } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -47,27 +49,32 @@ export default function RootLayout({
         <meta name="description" content="Operations Dashboard for Muscat Bay" />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <SidebarContext.Provider value={{ isCollapsed, setIsCollapsed }}>
-          <div className="h-full relative overflow-x-hidden">
-            {/* Sidebar - fixed position */}
-            <div
-              className={`hidden h-full md:flex md:flex-col md:fixed md:inset-y-0 z-[80] transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-72'}`}
-              style={{
-                backgroundColor: "var(--mb-primary)"
-              }}
-            >
-              <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+        <ToastProvider>
+          <SidebarContext.Provider value={{ isCollapsed, setIsCollapsed }}>
+            <div className="h-full relative overflow-x-hidden">
+              {/* Sidebar - fixed position */}
+              <div
+                className={`hidden h-full md:flex md:flex-col md:fixed md:inset-y-0 z-[80] transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-72'}`}
+                style={{
+                  backgroundColor: "var(--mb-primary)"
+                }}
+              >
+                <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+              </div>
+              {/* Main content - dynamic padding */}
+              <main
+                className={`pb-10 transition-all duration-300 w-full min-w-0 overflow-x-hidden pl-0 ${isMounted ? (isCollapsed ? 'md:pl-20' : 'md:pl-72') : 'md:pl-72'}`}
+              >
+                <Topbar />
+                <ErrorBoundary>
+                  {children}
+                </ErrorBoundary>
+              </main>
             </div>
-            {/* Main content - dynamic padding */}
-            <main
-              className={`pb-10 transition-all duration-300 w-full min-w-0 overflow-x-hidden pl-0 ${isMounted ? (isCollapsed ? 'md:pl-20' : 'md:pl-72') : 'md:pl-72'}`}
-            >
-              <Topbar />
-              {children}
-            </main>
-          </div>
-        </SidebarContext.Provider>
+          </SidebarContext.Provider>
+        </ToastProvider>
       </body>
     </html>
   );
 }
+
