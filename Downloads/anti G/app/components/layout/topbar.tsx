@@ -1,12 +1,26 @@
 "use client"
 
-import { Menu } from "lucide-react"
+import { Menu, LogOut, Settings, User } from "lucide-react"
 import { Sidebar } from "@/components/layout/sidebar"
-import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useAuth } from "@/components/auth/auth-provider"
+import Link from "next/link"
 
 export function Topbar() {
+    const { user, profile, logout, isAuthenticated } = useAuth();
+
+    const displayName = profile?.full_name || user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User";
+    const initials = displayName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2);
+
     return (
         <div className="flex items-center p-4 border-b h-16 bg-background">
             <Sheet>
@@ -23,19 +37,63 @@ export function Topbar() {
                 <h2 className="text-lg font-semibold md:hidden">
                     Muscat Bay Ops
                 </h2>
-                {/* On desktop, the title is in the sidebar, or we can add breadcrumbs here */}
                 <div className="hidden md:block">
-                    {/* Breadcrumb or Page Title placeholder */}
                 </div>
 
                 <div className="flex items-center gap-x-2 ml-auto">
-                    <div className="text-sm text-muted-foreground mr-2 hidden md:block">
-                        Admin User
-                    </div>
-                    <Avatar>
-                        <AvatarImage src="/admin-profile.png" />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+                    {isAuthenticated ? (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent transition-colors outline-none">
+                                <span className="text-sm text-muted-foreground hidden md:block">
+                                    {displayName}
+                                </span>
+                                <Avatar className="h-8 w-8">
+                                    <AvatarImage src={profile?.avatar_url || ""} />
+                                    <AvatarFallback className="bg-[var(--mb-secondary)] text-white text-xs">
+                                        {initials}
+                                    </AvatarFallback>
+                                </Avatar>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-56">
+                                <DropdownMenuLabel>
+                                    <div className="flex flex-col space-y-1">
+                                        <p className="text-sm font-medium">{displayName}</p>
+                                        <p className="text-xs text-muted-foreground">{user?.email}</p>
+                                    </div>
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <Link href="/settings/">
+                                    <DropdownMenuItem className="cursor-pointer">
+                                        <User className="mr-2 h-4 w-4" />
+                                        Profile
+                                    </DropdownMenuItem>
+                                </Link>
+                                <Link href="/settings/">
+                                    <DropdownMenuItem className="cursor-pointer">
+                                        <Settings className="mr-2 h-4 w-4" />
+                                        Settings
+                                    </DropdownMenuItem>
+                                </Link>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                    onClick={logout}
+                                    className="cursor-pointer text-red-600 focus:text-red-600"
+                                >
+                                    <LogOut className="mr-2 h-4 w-4" />
+                                    Sign out
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    ) : (
+                        <div className="flex items-center gap-x-2">
+                            <span className="text-sm text-muted-foreground hidden md:block">
+                                Guest
+                            </span>
+                            <Avatar className="h-8 w-8">
+                                <AvatarFallback>G</AvatarFallback>
+                            </Avatar>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
