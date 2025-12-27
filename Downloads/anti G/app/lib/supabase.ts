@@ -411,7 +411,7 @@ export async function getCombinedContractors(): Promise<import('./mock-data').Co
         id: item.id,
         name: item.contractor,
         company: item.contractor,
-        status: item.status || 'Active',
+        status: (item.status as "Active" | "Expired" | "On-Hold") || 'Active',
         expiryDate: item.end_date || '',
         category: item.service_category || ''
     }));

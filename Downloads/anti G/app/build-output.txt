@@ -1,0 +1,84 @@
+﻿
+> app@0.1.0 build
+> next build
+
+node.exe :  ΓÜá Warning: Next.js inferred your workspace 
+root, but it may not be correct.
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( ΓÜá Warning:  
+   N...not be correct.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ We detected multiple lockfiles and selected the directory 
+of C:\Users\Abdulrahim.Albalushi\pnpm-lock.yaml as the root 
+directory.
+ To silence this warning, set `turbopack.root` in your 
+Next.js config, or consider removing one of the lockfiles 
+if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next
+-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\Abdulrahim.Albalushi\Downloads\anti 
+G\app\package-lock.json
+
+   Γû▓ Next.js 16.0.10 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+[next]/internal/font/google/inter_5972bc34.module.css
+Error while requesting resource
+There was an issue establishing a connection while 
+requesting https://fonts.googleapis.com/css2?family=Inter:wg
+ht@100..900&display=swap
+
+Import traces:
+  Client Component Browser:
+    [next]/internal/font/google/inter_5972bc34.module.css 
+[Client Component Browser]
+    [next]/internal/font/google/inter_5972bc34.js [Client 
+Component Browser]
+    ./Downloads/anti G/app/app/layout.tsx [Client Component 
+Browser]
+    ./Downloads/anti G/app/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    [next]/internal/font/google/inter_5972bc34.module.css 
+[Client Component SSR]
+    [next]/internal/font/google/inter_5972bc34.js [Client 
+Component SSR]
+    ./Downloads/anti G/app/app/layout.tsx [Client Component 
+SSR]
+    ./Downloads/anti G/app/app/layout.tsx [Server Component]
+
+
+
+> Build error occurred
+Error: Turbopack build failed with 1 errors:
+[next]/internal/font/google/inter_5972bc34.module.css
+next/font: error:
+Failed to fetch `Inter` from Google Fonts.
+
+Import traces:
+  Client Component Browser:
+    [next]/internal/font/google/inter_5972bc34.module.css 
+[Client Component Browser]
+    [next]/internal/font/google/inter_5972bc34.js [Client 
+Component Browser]
+    ./Downloads/anti G/app/app/layout.tsx [Client Component 
+Browser]
+    ./Downloads/anti G/app/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    [next]/internal/font/google/inter_5972bc34.module.css 
+[Client Component SSR]
+    [next]/internal/font/google/inter_5972bc34.js [Client 
+Component SSR]
+    ./Downloads/anti G/app/app/layout.tsx [Client Component 
+SSR]
+    ./Downloads/anti G/app/app/layout.tsx [Server Component]
+
+
+    at ignore-listed frames

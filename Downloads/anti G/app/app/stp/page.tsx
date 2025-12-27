@@ -531,9 +531,9 @@ export default function STPPage() {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <span className="text-sm text-muted-foreground">Select Month for Daily View</span>
-                                        <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+                                        <Select value={selectedMonth} onValueChange={(value) => value && setSelectedMonth(value)}>
                                             <SelectTrigger className="w-[180px]">
-                                                <SelectValue>Select month</SelectValue>
+                                                <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {availableMonths.map(month => (
