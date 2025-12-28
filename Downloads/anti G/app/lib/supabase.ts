@@ -621,24 +621,33 @@ export function transformWaterMeter(dbMeter: SupabaseWaterMeter): import('./wate
 
 // Fetch water meters from Supabase
 export async function getWaterMetersFromSupabase(): Promise<import('./water-data').WaterMeter[]> {
+    // Debug: Log configuration status
+    console.log('[Water Debug] isSupabaseConfigured:', isSupabaseConfigured());
+    console.log('[Water Debug] URL present:', !!process.env.NEXT_PUBLIC_SUPABASE_URL);
+    console.log('[Water Debug] Key starts with eyJ:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.startsWith('eyJ'));
+
     const client = getSupabaseClient();
     if (!client) {
-        console.log('Supabase not configured for Water System');
+        console.log('[Water Debug] Supabase client is null - not configured');
         return [];
     }
 
+
     try {
+        console.log('[Water Debug] Executing query on "Water System" table...');
         const { data, error } = await client
             .from('Water System')
             .select('*');
 
+        console.log('[Water Debug] Query complete. Error:', error, 'Data length:', data?.length);
+
         if (error) {
-            console.error('Error fetching water meters:', error.message);
+            console.error('[Water Debug] Query error object:', JSON.stringify(error));
             return [];
         }
 
         if (!data || data.length === 0) {
-            console.log('No water meters found in database');
+            console.log('[Water Debug] Query returned empty data. Data value:', data);
             return [];
         }
 
